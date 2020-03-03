@@ -34,7 +34,6 @@ class DatePickerService:
 
     def pick_dates(self, text):
 
-
         date_range = re.findall("((0|1)\d{1})[-\/]((0|1|2)\d{1})[-\/]((19|20)?\d{2})", text)
         returned_date_spec = DateSpec.DateSpec(False, [])
 
@@ -55,7 +54,7 @@ class DatePickerService:
             to_date = datetime.date(int(to_year), int(date_range[1][0]), int(date_range[1][2]))
 
             today = datetime.date.today()
-            for i in range(14):  # Evaluate for 2 weeks
+            for i in range(365):  # Evaluate for 2 weeks
                 date_to_evaluate = today + datetime.timedelta(days=i)
                 if from_date <= date_to_evaluate <= to_date:
                     returned_date_spec.dates.append(date_to_evaluate)

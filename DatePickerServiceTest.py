@@ -6,12 +6,17 @@ import datetime
 
 class DatePickerServiceTest(unittest.TestCase):
 
-    def test_date_picker_without_except_claus(self):
+    def test_date_picker(self):
         date_picker_service = DatePickerService.DatePickerService()
+
+        from_date = datetime.date(2020, 2, 7)
+        to_date = datetime.date(2020, 5, 9)
         today = datetime.date.today()
         expected_dates = []
-        for i in range(14):
-            expected_dates.append(today + datetime.timedelta(days=i))
+        for i in range(365):
+            date_to_evaluate = today + datetime.timedelta(days=i)
+            if from_date <= date_to_evaluate <= to_date:
+                expected_dates.append(date_to_evaluate)
 
         test_objects = {
             "2 HOUR PARKING": None,
@@ -70,45 +75,9 @@ class DatePickerServiceTest(unittest.TestCase):
             "PERMIT": None,
             "REQUIRED": None,
             "36 CFR 1004.12": None,
-            # "EXCEPT FEDERAL HOLIDAYS": DateSpec.DateSpec(True, date_picker_service.us_federal_holidays),
+            "EXCEPT FEDERAL HOLIDAYS": DateSpec.DateSpec(True, date_picker_service.us_federal_holidays),
 
-            # # My searches
-            # "2 HOUR PARKING ENTIRE BLOCK 8AM TO 6PM EXCEPT SUNDAYS AND HOLIDAYS": DateSpec.DateSpec(True, date_picker_service.us_holidays),
-        }
-
-        for test_text in test_objects:
-
-            actual_date_spec = date_picker_service.pick_dates(test_text)
-            expected_date_spec = test_objects[test_text]
-
-            if expected_date_spec is not None and actual_date_spec is not None:
-                self.assertEqual(expected_date_spec.except_flag, actual_date_spec.except_flag) # I don't understand why except_flag becomes a list
-                self.assertEqual(expected_date_spec.dates, actual_date_spec.dates)
-            elif expected_date_spec is not None and actual_date_spec is None:
-                self.fail("actual_weekday_spec is None")
-            elif expected_date_spec is None and actual_date_spec is not None:
-                self.fail("actual_weekday_spec is not None")
-
-    def test_date_picker_with_except_claus(self):
-        date_picker_service = DatePickerService.DatePickerService()
-        today = datetime.date.today()
-        expected_dates = []
-        for i in range(14):
-            expected_dates.append(today + datetime.timedelta(days=i))
-
-        test_objects = {
-
-            # # Scan 5
-            # "PAY TO": None,
-            # "PARK": None,
-            # " 10am to 7pm": None,
-            # "ZONE 3": None,
-            # "PERMIT": None,
-            # "REQUIRED": None,
-            # "36 CFR 1004.12": None,
-            "EXCEPT FEDERAL HOLIDAYS": DateSpec.DateSpec(bool(True), date_picker_service.us_federal_holidays),
-            #
-            # # # My searches
+            # My searches
             "2 HOUR PARKING ENTIRE BLOCK 8AM TO 6PM EXCEPT SUNDAYS AND HOLIDAYS": DateSpec.DateSpec(True, date_picker_service.us_holidays),
         }
 
@@ -118,7 +87,7 @@ class DatePickerServiceTest(unittest.TestCase):
             expected_date_spec = test_objects[test_text]
 
             if expected_date_spec is not None and actual_date_spec is not None:
-                self.assertEqual(expected_date_spec.except_flag[0], actual_date_spec.except_flag) # I don't understand why except_flag becomes a list
+                self.assertEqual(expected_date_spec.except_flag, actual_date_spec.except_flag)
                 self.assertEqual(expected_date_spec.dates, actual_date_spec.dates)
             elif expected_date_spec is not None and actual_date_spec is None:
                 self.fail("actual_weekday_spec is None")

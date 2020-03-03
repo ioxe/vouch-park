@@ -1,43 +1,40 @@
 from datetime import datetime
-import re
-import HourSpec
+
 import ParkingRule
 import HourPickerService
+import DatePickerService
+import WeekdayPickerService
+import DurationAndParkingIndicatorPickerService
 
 
 class ParkingRuleService:
+    def checkParkingSign(self, text_arr, date_time):
 
-    def __init__(self):
-        pass
+        hour_picker_Service = HourPickerService.HourPickerService()
+        date_picker_Service = DatePickerService.DatePickerService()
+        weekday_picker_Service = WeekdayPickerService.WeekdayPickerService()
+        duration_and_parking_indicator_picker_Service = DurationAndParkingIndicatorPickerService.DurationAndParkingIndicatorPickerService()
 
+        returned_parking_rule = ParkingRule.ParkingRule([], [], [], 0, 1)  # parking_indicator -> default is parking (1)
 
-    def checkParkingSign(self, text, date_time):
+        sanitized_beginning_of_sign = str(text_arr[0]).strip().upper()
 
-        # trim and upper case
-        sanitized_text = str(text).strip().upper()
+        returned_parking_rule.duration, returned_parking_rule.parking_indicator = duration_and_parking_indicator_picker_Service.pick_duration_and_parking_indicator(sanitized_beginning_of_sign)
 
-        # duration
-        duration = None
+        for text in text_arr:
+            # trim and upper case
+            sanitized_text = str(text).strip().upper()
 
-        # No parking sigs
-        NoParkingSigns = ["NO PARKING", "NO STOPPING", "TOW-AWAY NO", "RESERVED", "PRIVATE PARKING",
-                          "CUSTOMER PARKING ONLY"]
-        for sign in NoParkingSigns:
-            if str(sanitized_text).startswith(sign):
-                sanitized_text = sanitized_text.replace(sign, "")
-                duration = 0
+            hour_spec = hour_picker_Service.pick_hour_window(sanitized_text)
+            if hour_spec is not None:
+                returned_parking_rule.hour_specs.append(hour_spec)
 
-        # gets time window
-        hour_specs = HourPickerService.HourPickerService.pick_hour_windows(sanitized_text)
+            date_spec = date_picker_Service.pick_dates(sanitized_text)
+            if date_spec is not None:
+                returned_parking_rule.date_specs.append(date_spec)
 
-        parking_rule = ParkingRule.ParkingRule(0, 0, hour_specs, duration, 0)
+            weekday_spec = weekday_picker_Service.pick_weekdays(sanitized_text)
+            if weekday_spec is not None:
+                returned_parking_rule.weekday_specs.append(weekday_spec)
 
-        print("parking_rule: ", parking_rule.hour_specs[0].from_hour, " , " , parking_rule.hour_specs[0].to_hour)
-
-        # return parking_rule
-
-
-parkingRuleService = ParkingRuleService()
-parkingRuleService.checkParkingSign(text="NO PARKING 12:01 A.M. TO 2 A.M. TUE THRU THUR STREET CLEANING", date_time=datetime.now())
-parkingRuleService.checkParkingSign(text="NO PARKING 2:00 p.M. TO 2 a.M. TUE THRU THUR STREET CLEANING", date_time=datetime.now())
-# checkParkingSign(text= "2 HOUR PARKING 8AM-6PM MON THRU FRI EXCEPT VEHICLES WITH X PERMIT", date_time = datetime.now())
+        return returned_parking_rule
