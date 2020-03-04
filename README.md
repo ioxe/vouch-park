@@ -1,5 +1,8 @@
 # vouch-park
 
+Code changes
+1. Add holidays of next year at the end of the calendar year and delete the holidays in the past
+
 Data refining step
 1. Combine "To" into one sentence. For the scan below: "9A.M. To 11A.M." should be in one line
 

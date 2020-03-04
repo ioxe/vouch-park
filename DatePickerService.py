@@ -5,27 +5,59 @@ import DateSpec
 
 
 class DatePickerService:
+    DATE_FORMAT = "%m-%d-%Y"
+
     def __init__(self):
         self.us_federal_holidays = [
-            datetime.datetime.strptime("01-01-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("01-20-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("02-17-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("05-25-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("07-03-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("09-07-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("10-12-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("11-11-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("11-26-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("12-25-2020", "%m-%d-%Y")]
+            datetime.datetime.strptime("01-01-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("01-20-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("02-17-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("05-25-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("07-03-2020", DatePickerService.DATE_FORMAT),  # Independence day observed
+            datetime.datetime.strptime("07-04-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("09-07-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("10-12-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-11-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-26-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("12-25-2020", DatePickerService.DATE_FORMAT),
+
+            datetime.datetime.strptime("01-01-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("01-18-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("02-15-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("05-31-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("07-04-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("07-05-2021", DatePickerService.DATE_FORMAT),  # Independence day observed
+            datetime.datetime.strptime("09-06-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("10-11-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-11-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-25-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("12-24-2021", DatePickerService.DATE_FORMAT),  # Christmas day observed
+            datetime.datetime.strptime("12-25-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("12-31-2021", DatePickerService.DATE_FORMAT),  # New Year's Day observed
+        ]
         self.us_holidays = [
-            datetime.datetime.strptime("01-01-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("01-20-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("05-25-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("07-03-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("09-07-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("11-11-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("11-26-2020", "%m-%d-%Y"),
-            datetime.datetime.strptime("12-25-2020", "%m-%d-%Y")]
+            datetime.datetime.strptime("01-01-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("01-20-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("05-25-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("07-03-2020", DatePickerService.DATE_FORMAT),  # Independence day observed
+            datetime.datetime.strptime("07-04-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("09-07-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-11-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-26-2020", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("12-25-2020", DatePickerService.DATE_FORMAT),
+
+            datetime.datetime.strptime("01-01-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("01-18-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("05-31-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("07-04-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("07-05-2021", DatePickerService.DATE_FORMAT),  # Independence day observed
+            datetime.datetime.strptime("09-06-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-11-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("11-25-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("12-24-2021", DatePickerService.DATE_FORMAT),  # Christmas day observed
+            datetime.datetime.strptime("12-25-2021", DatePickerService.DATE_FORMAT),
+            datetime.datetime.strptime("12-31-2021", DatePickerService.DATE_FORMAT),  # New Year's Day observed
+        ]
 
     def sanitize_year(self, year):
         if len(year) == 2:

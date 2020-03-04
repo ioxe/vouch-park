@@ -19,7 +19,8 @@ class ParkingRuleService:
 
         sanitized_beginning_of_sign = str(text_arr[0]).strip().upper()
 
-        returned_parking_rule.duration, returned_parking_rule.parking_indicator = duration_and_parking_indicator_picker_Service.pick_duration_and_parking_indicator(sanitized_beginning_of_sign)
+        returned_parking_rule.duration, returned_parking_rule.parking_indicator = duration_and_parking_indicator_picker_Service.pick_duration_and_parking_indicator(
+            sanitized_beginning_of_sign)
 
         for text in text_arr:
             # trim and upper case
