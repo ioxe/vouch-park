@@ -10,7 +10,7 @@ def get_parking_Rules():
     parking_rule_service = ParkingRuleService.ParkingRuleService()
 
     req_data = request.get_json()
-    parking_rule = parking_rule_service.checkParkingSign(req_data, "")
+    parking_rule = parking_rule_service.checkParkingSign(req_data)
 
     parking_rule_json = ParkingRuleEncoder.ParkingRuleEncoder().encode(parking_rule)
     return jsonify(parking_rule_json)

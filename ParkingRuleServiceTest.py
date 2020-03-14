@@ -19,7 +19,7 @@ class ParkingRuleServiceTest(unittest.TestCase):
         for i in range(365):
             date_to_evaluate = today + datetime.timedelta(days=i)
             if from_date <= date_to_evaluate <= to_date:
-                expected_dates.append(date_to_evaluate)
+                expected_dates.append(date_to_evaluate.__str__())
 
         test_case_inputs = {
             1: ["2 HOUR PARKING", "9 A.M. TO 6 P.M.", "MON THRU FRI", "EXCEPT VEHICLES WITH", "AREA U PERMITS"],
@@ -111,7 +111,7 @@ class ParkingRuleServiceTest(unittest.TestCase):
 
         for test_case_input in test_case_inputs:
             parking_rule_service = ParkingRuleService.ParkingRuleService()
-            actual_parking_rule = parking_rule_service.checkParkingSign(test_case_inputs[test_case_input], "date_time")
+            actual_parking_rule = parking_rule_service.checkParkingSign(test_case_inputs[test_case_input])
 
             expected_parking_rule = test_case_results[test_case_input]
             if expected_parking_rule.date_specs is not None and actual_parking_rule.date_specs is not None:

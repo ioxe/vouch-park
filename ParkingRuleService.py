@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import ParkingRule
 import HourPickerService
 import DatePickerService
@@ -8,7 +6,7 @@ import DurationAndParkingIndicatorPickerService
 
 
 class ParkingRuleService:
-    def checkParkingSign(self, text_arr, date_time):
+    def checkParkingSign(self, text_arr):
 
         hour_picker_Service = HourPickerService.HourPickerService()
         date_picker_Service = DatePickerService.DatePickerService()

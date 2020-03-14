@@ -16,7 +16,7 @@ class DatePickerServiceTest(unittest.TestCase):
         for i in range(365):
             date_to_evaluate = today + datetime.timedelta(days=i)
             if from_date <= date_to_evaluate <= to_date:
-                expected_dates.append(date_to_evaluate)
+                expected_dates.append(date_to_evaluate.__str__())
 
         test_objects = {
             "2 HOUR PARKING": None,
