@@ -86,10 +86,10 @@ class DatePickerService:
             to_date = datetime.date(int(to_year), int(date_range[1][0]), int(date_range[1][2]))
 
             today = datetime.date.today()
-            for i in range(365):  # Evaluate for 2 weeks
+            for i in range(365):  # Evaluate for 1 year
                 date_to_evaluate = today + datetime.timedelta(days=i)
                 if from_date <= date_to_evaluate <= to_date:
-                    returned_date_spec.dates.append(date_to_evaluate)
+                    returned_date_spec.dates.append(date_to_evaluate.__str__())  # convert date to string
 
         if len(returned_date_spec.dates) == 0:
             return None

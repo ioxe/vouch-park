@@ -1,14 +1,20 @@
-from flask import Flask, json
-from service.ParkingRuleService import ParkingRuleService
-
-companies = [{"id": 1, "name": "Company One"}, {"id": 2, "name": "Company Two"}]
+from flask import Flask, request, jsonify
+import ParkingRuleService
+import ParkingRuleEncoder
 
 api = Flask(__name__)
 
-@api.route('/companies', methods=['GET'])
-def get_companies():
 
-    result = ParkingRuleService.checkParkingSign("", None)
-    return json.dumps(result)
+@api.route('/get_parking_rules', methods=['POST'])
+def get_parking_Rules():
+    parking_rule_service = ParkingRuleService.ParkingRuleService()
+
+    req_data = request.get_json()
+    parking_rule = parking_rule_service.checkParkingSign(req_data, "")
+
+    parking_rule_json = ParkingRuleEncoder.ParkingRuleEncoder().encode(parking_rule)
+    return jsonify(parking_rule_json)
+
+
 if __name__ == '__main__':
     api.run()
