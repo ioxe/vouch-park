@@ -4,6 +4,15 @@ import re
 
 class WeekdayPickerService:
     weekDays = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
+    output_weekday_nums = {
+        "SUN": 1,
+        "MON": 2,
+        "TUE": 3,
+        "WED": 4,
+        "THU": 5,
+        "FRI": 6,
+        "SAT": 7,
+    }
     weekDayWords = (
     "EVERYDAY", "MON", "MONDAY", "MONDAYS", "TUE", "TUESDAY", "TUESDAYS", "WED", "WEDNESDAY", "WEDNESDAYS", "THU",
     "THURSDAY", "THURSDAYS", "FRI", "FRIDAY", "FRIDAYS", "SAT", "SATURDAY", "SATURDAYS", "SUN", "SUNDAY", "SUNDAYS")
@@ -63,8 +72,9 @@ class WeekdayPickerService:
 
     def pick_weekdays(self, text):
 
-        returned_weekday_spec = WeekdaySpec.WeekdaySpec([], [], [])
         weekNumbers = re.findall("(\d*[1-5])\s*((ST)|(ND)|(RD)|(TH))", text)
+        output_days_of_week = []
+        output_weeks_of_month = []
 
         if "MON" in text or "TUE" in text or "WED" in text or "THU" in text or "FRI" in text or "SAT" in text or "SUN" in text or "EVERYDAY" in text:
 
@@ -77,19 +87,19 @@ class WeekdayPickerService:
                     has_weekdays = True
                     break
 
-            if has_weekdays: # has_weekdays is just to double check. It should not misunderstand TOWED for Wednesday because TOWED contains string WED
+            if has_weekdays:  # has_weekdays is just to double check. It should not misunderstand TOWED for Wednesday because TOWED contains string WED
 
                 if "THRU" in text or "THROUGH" in text or "TO" in text:
-                    returned_weekday_spec.days_of_week = self.handle_weekday_range(text)
+                    output_days_of_week = self.handle_weekday_range(text)
 
                 elif "EVERYDAY" in text:
-                    returned_weekday_spec.days_of_week = list(self.weekDays)
+                    output_days_of_week = list(self.weekDays)
 
                 elif len(weekNumbers) > 0: # Weekdays with week numbers. Eg. 2nd and 4th Monday
                     days_of_week, weeks_of_month = self.handle_weekdays_for_weeks_of_month(text)
 
-                    returned_weekday_spec.weeks_of_month = weeks_of_month
-                    returned_weekday_spec.days_of_week = days_of_week
+                    output_weeks_of_month = weeks_of_month
+                    output_days_of_week = days_of_week
 
                 else:
                     days_of_week = self.get_weekdays(text)
@@ -98,14 +108,20 @@ class WeekdayPickerService:
                         for weekday in self.weekDays:
                             if weekday not in days_of_week:
                                 except_weekdays.append(weekday)
-                        returned_weekday_spec.days_of_week = except_weekdays
+                        output_days_of_week = except_weekdays
                     else:
-                        returned_weekday_spec.days_of_week = days_of_week
+                        output_days_of_week = days_of_week
 
-        if len(returned_weekday_spec.days_of_week) == 0 and len(returned_weekday_spec.weeks_of_month) == 0 and len(returned_weekday_spec.months) == 0:
+        if len(output_days_of_week) == 0 and len(output_weeks_of_month) == 0:
             return None
         else:
-            return returned_weekday_spec
+            return WeekdaySpec.WeekdaySpec([], self.transform_weekdays_into_numbers(output_days_of_week), output_weeks_of_month)  # logic for months (The first parameter into the constructor of WeekdaySpec) is not in place yet
+
+    def transform_weekdays_into_numbers(self, weekdays):
+        returned_weekdays = []
+        for weekday in weekdays:
+            returned_weekdays.append(self.output_weekday_nums.get(weekday))
+        return returned_weekdays
 
     def handle_weekdays_for_weeks_of_month(self, text):
 

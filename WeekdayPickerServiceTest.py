@@ -10,14 +10,14 @@ class WeekdayPickerServiceTest(unittest.TestCase):
 
             "2 HOUR PARKING": None,
             "9 A.M. TO 6 P.M.": None,
-            "MON THRU FRI": WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI"], []),
+            "MON THRU FRI": WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6], []),
             "EXCEPT VEHICLES WITH": None,
             "AREA U PERMITS": None,
 
             # Scan 1.1
             "NO PARKING": None,
             "11 AM TO 1 P.M.": None,
-            "2nd and 4th MONDAY": WeekdaySpec.WeekdaySpec([], ["MON"], [2, 4]),
+            "2nd and 4th MONDAY": WeekdaySpec.WeekdaySpec([], [2], [2, 4]),
             "OF THE MONTH": None,
             "STREET CLEANING": None,
 
@@ -25,7 +25,7 @@ class WeekdayPickerServiceTest(unittest.TestCase):
             "2 HOUR": None,
             "PARKING": None,
             "7A.M.TO 6 P.M.": None,
-            "EXCEPT SUNDAYS": WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI", "SAT"], []),
+            "EXCEPT SUNDAYS": WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6, 7], []),
 
             # Scan 2
             "9A.M. TO 11A.M.": None,
@@ -35,7 +35,7 @@ class WeekdayPickerServiceTest(unittest.TestCase):
             "STOPPING": None,
             "02/07/20 - 02/09/20": None,
             "11:30PM - 7:00AM": None,
-            "Fri, Sat, Sun": WeekdaySpec.WeekdaySpec([], ["FRI", "SAT", "SUN"], []),
+            "Fri, Sat, Sun": WeekdaySpec.WeekdaySpec([], [6, 7, 1], []),
             "15TH AVE/TARAVAL ST - ULLOA ST": None,
             "(300 ft.) - Odd": None,
             "Pacific Gas & Electric": None,
@@ -51,7 +51,7 @@ class WeekdayPickerServiceTest(unittest.TestCase):
             "TOW-AWAY": None,
             "NO STOPPING": None,
             "10PM TO 6AM": None,
-            "EVERYDAY": WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"], []),
+            "EVERYDAY": WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6, 7, 1], []),
             "FOR TOWED CARS": None,
             "PHONE 553-1235": None,
             "C&C of S.F. M. 1/93 3M": None,
@@ -63,7 +63,6 @@ class WeekdayPickerServiceTest(unittest.TestCase):
             "ZONE 3": None,
             "PERMIT": None,
             "REQUIRED": None,
-            # "EVERYDAY": WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"], []),
             "36 CFR 1004.12": None,
             "EXCEPT FEDERAL HOLIDAYS": None,
         }

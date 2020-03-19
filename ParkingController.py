@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 import ParkingRuleService
 import ParkingRuleEncoder
 
@@ -13,8 +13,8 @@ def get_parking_Rules():
     parking_rule = parking_rule_service.checkParkingSign(req_data)
 
     response = api.response_class(
-        response = ParkingRuleEncoder.ParkingRuleEncoder().encode(parking_rule),
-        mimetype = 'application/json'
+        response=ParkingRuleEncoder.ParkingRuleEncoder().encode(parking_rule),
+        mimetype='application/json'
     )
     return response
 
