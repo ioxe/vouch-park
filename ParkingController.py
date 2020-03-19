@@ -12,8 +12,11 @@ def get_parking_Rules():
     req_data = request.get_json()
     parking_rule = parking_rule_service.checkParkingSign(req_data)
 
-    parking_rule_json = ParkingRuleEncoder.ParkingRuleEncoder().encode(parking_rule)
-    return jsonify(parking_rule_json)
+    response = api.response_class(
+        response = ParkingRuleEncoder.ParkingRuleEncoder().encode(parking_rule),
+        mimetype = 'application/json'
+    )
+    return response
 
 
 if __name__ == '__main__':
