@@ -74,7 +74,7 @@ class WeekdayPickerServiceTest(unittest.TestCase):
             expected_weekday_spec = test_objects[test_text]
 
             if expected_weekday_spec is not None and actual_weekday_spec is not None:
-                self.assertEqual(expected_weekday_spec.days_of_Week, actual_weekday_spec.days_of_Week)
+                self.assertEqual(expected_weekday_spec.days_of_week, actual_weekday_spec.days_of_week)
                 self.assertEqual(expected_weekday_spec.weeks_of_month, actual_weekday_spec.weeks_of_month)
                 self.assertEqual(expected_weekday_spec.months, actual_weekday_spec.months)
             elif expected_weekday_spec is not None and actual_weekday_spec is None:

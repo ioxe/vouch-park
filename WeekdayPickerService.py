@@ -80,29 +80,29 @@ class WeekdayPickerService:
             if has_weekdays: # has_weekdays is just to double check. It should not misunderstand TOWED for Wednesday because TOWED contains string WED
 
                 if "THRU" in text or "THROUGH" in text or "TO" in text:
-                    returned_weekday_spec.days_of_Week = self.handle_weekday_range(text)
+                    returned_weekday_spec.days_of_week = self.handle_weekday_range(text)
 
                 elif "EVERYDAY" in text:
-                    returned_weekday_spec.days_of_Week = list(self.weekDays)
+                    returned_weekday_spec.days_of_week = list(self.weekDays)
 
                 elif len(weekNumbers) > 0: # Weekdays with week numbers. Eg. 2nd and 4th Monday
                     days_of_week, weeks_of_month = self.handle_weekdays_for_weeks_of_month(text)
 
                     returned_weekday_spec.weeks_of_month = weeks_of_month
-                    returned_weekday_spec.days_of_Week = days_of_week
+                    returned_weekday_spec.days_of_week = days_of_week
 
                 else:
-                    days_of_Week = self.get_weekdays(text)
+                    days_of_week = self.get_weekdays(text)
                     if "EXCEPT" in text:
                         except_weekdays = []
                         for weekday in self.weekDays:
-                            if weekday not in days_of_Week:
+                            if weekday not in days_of_week:
                                 except_weekdays.append(weekday)
-                        returned_weekday_spec.days_of_Week = except_weekdays
+                        returned_weekday_spec.days_of_week = except_weekdays
                     else:
-                        returned_weekday_spec.days_of_Week = days_of_Week
+                        returned_weekday_spec.days_of_week = days_of_week
 
-        if len(returned_weekday_spec.days_of_Week) == 0 and len(returned_weekday_spec.weeks_of_month) == 0 and len(returned_weekday_spec.months) == 0:
+        if len(returned_weekday_spec.days_of_week) == 0 and len(returned_weekday_spec.weeks_of_month) == 0 and len(returned_weekday_spec.months) == 0:
             return None
         else:
             return returned_weekday_spec

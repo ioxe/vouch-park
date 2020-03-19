@@ -130,8 +130,8 @@ class ParkingRuleServiceTest(unittest.TestCase):
             if len(expected_parking_rule.weekday_specs) > 0:
                 self.assertEqual(expected_parking_rule.weekday_specs[0].months,
                                  actual_parking_rule.weekday_specs[0].months)
-                self.assertEqual(expected_parking_rule.weekday_specs[0].days_of_Week,
-                                 actual_parking_rule.weekday_specs[0].days_of_Week)
+                self.assertEqual(expected_parking_rule.weekday_specs[0].days_of_week,
+                                 actual_parking_rule.weekday_specs[0].days_of_week)
                 self.assertEqual(expected_parking_rule.weekday_specs[0].weeks_of_month,
                                  actual_parking_rule.weekday_specs[0].weeks_of_month)
             self.assertEqual(expected_parking_rule.duration, actual_parking_rule.duration)
