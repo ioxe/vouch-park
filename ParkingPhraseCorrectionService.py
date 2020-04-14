@@ -5,28 +5,35 @@ class ParkingPhraseCorrectionService:
 
     def __init__(self):
         self.parkingLibrary = ParkingLibrary.ParkingLibrary()
-        self.levenshtein_threshold = 0.5
+        self.min_levenstein_distance = 2
 
     def correct_phrase(self, phrase):
         output_phrases = []
-        if phrase.upper() in self.parkingLibrary.parking_vocabulary:
-            output_phrases.append(phrase)
-        else:
-            matched_possible_characters = self.get_matched_possible_characters(phrase)
-            character_combinations = self.generate_combinations_of_characters(matched_possible_characters)
-            print("RETURNED CHARACTER COMBS: \n" + str(character_combinations))
-            # for character_combination in character_combinations:
-            #     print("==>> " + character_combination)
-            for character_combination in character_combinations:
-                if character_combination.upper() in self.parkingLibrary.parking_vocabulary:
-                    output_phrases.append(character_combination.upper())
 
-            if len(output_phrases) == 0:
-                for character_combination in character_combinations:
-                    for parking_phrase in self.parkingLibrary.parking_vocabulary:
-                        levenshtein_distance = self.find_levenshtein_distance(character_combination, parking_phrase)
-                        if levenshtein_distance <= (len(phrase) * self.levenshtein_threshold):
-                            output_phrases.append(character_combination)
+        # Generate character combinations
+        matched_possible_characters = self.get_matched_possible_characters(phrase)
+        character_combinations = self.generate_combinations_of_characters(matched_possible_characters)
+
+        # Generate combined_levenshtein_distance_map for each combination
+        combined_levenshtein_distance_map = {}
+        for character_combination in character_combinations:
+            levenshtein_distance_map = self.get_levenshtein_distance_map(character_combination,
+                                                                         self.parkingLibrary.parking_vocabulary)
+            # select top n elements (n = self.min_levenstein_distance)
+            for i in range(0, self.min_levenstein_distance):
+                close_match_key = list(levenshtein_distance_map.keys())[i]  # Select close match
+                if close_match_key in combined_levenshtein_distance_map and combined_levenshtein_distance_map[close_match_key] > levenshtein_distance_map[close_match_key]:
+                    combined_levenshtein_distance_map[close_match_key] = levenshtein_distance_map[close_match_key]
+                elif close_match_key not in combined_levenshtein_distance_map:
+                    combined_levenshtein_distance_map[close_match_key] = levenshtein_distance_map[close_match_key]
+        sorted(combined_levenshtein_distance_map.items(), key=lambda item: item[1], reverse=True)
+        combined_levenshtein_distance_map_keys = list(combined_levenshtein_distance_map.keys())
+
+        # determine how many close words to return
+        levenshtein_distance_threshold = max(combined_levenshtein_distance_map[combined_levenshtein_distance_map_keys[0]], self.min_levenstein_distance)
+        for key in combined_levenshtein_distance_map_keys:
+            if combined_levenshtein_distance_map[key] <= levenshtein_distance_threshold:
+                output_phrases.append(key)
         return output_phrases
 
     def get_matched_possible_characters(self, phrase):
@@ -42,30 +49,37 @@ class ParkingPhraseCorrectionService:
         # TODO: Consider left and right alignments for first and last character in the input phrase
         if len(matched_possible_characters) > 0:
 
-            bottom_combinations = self.generate_combinations_for_alignments_top_or_bottom(matched_possible_characters, self.parkingLibrary.alignments.B.name)
-            # print("bottom combinations: " + str(bottom_combinations))
+            bottom_combinations = self.generate_combinations_for_alignments_top_or_bottom(matched_possible_characters,
+                                                                                          self.parkingLibrary.alignments.B.name)
 
-            top_combinations = self.generate_combinations_for_alignments_top_or_bottom(matched_possible_characters, self.parkingLibrary.alignments.T.name)
-            # print("top combinations: " + str(top_combinations))
+            top_combinations = self.generate_combinations_for_alignments_top_or_bottom(matched_possible_characters,
+                                                                                       self.parkingLibrary.alignments.T.name)
 
             # combine lists and remove duplicates
             character_combinations = bottom_combinations + list(set(top_combinations) - set(bottom_combinations))
-            # print("character combs BEFORE first and last: " + str(character_combinations))
 
             # First character combinations
             if self.parkingLibrary.alignments.L.name in matched_possible_characters[0].keys():
-                first_char_combs = self.generate_combinations_for_alignments_left_or_right(character_combinations, matched_possible_characters[0][self.parkingLibrary.alignments.L.name], self.parkingLibrary.alignments.L.name)
-                # print("first_char_combs: " + str(first_char_combs))
+                first_char_combs = self.generate_combinations_for_alignments_left_or_right(character_combinations,
+                                                                                           matched_possible_characters[
+                                                                                               0][
+                                                                                               self.parkingLibrary.alignments.L.name],
+                                                                                           self.parkingLibrary.alignments.L.name)
                 character_combinations.extend(first_char_combs)
 
             # Last character combinations
-            if len(matched_possible_characters) > 1 and self.parkingLibrary.alignments.R.name in matched_possible_characters[len(matched_possible_characters)-1].keys():
-                last_char_combs = self.generate_combinations_for_alignments_left_or_right(character_combinations, matched_possible_characters[len(matched_possible_characters) - 1][self.parkingLibrary.alignments.R.name], self.parkingLibrary.alignments.R.name)
-                # print("last_char_combs: " + str(last_char_combs))
+            if len(matched_possible_characters) > 1 and self.parkingLibrary.alignments.R.name in \
+                    matched_possible_characters[len(matched_possible_characters) - 1].keys():
+                last_char_combs = self.generate_combinations_for_alignments_left_or_right(character_combinations,
+                                                                                          matched_possible_characters[
+                                                                                              len(
+                                                                                                  matched_possible_characters) - 1][
+                                                                                              self.parkingLibrary.alignments.R.name],
+                                                                                          self.parkingLibrary.alignments.R.name)
                 character_combinations.extend(last_char_combs)
-            # print("character combs AFTER first and last: \n" + str(character_combinations))
 
-        return list(set(character_combinations))  # returning character_combinations may be enough (you don't really need to do list(set(character_combinations)) to remove duplicates)
+        return list(set(
+            character_combinations))  # returning character_combinations may be enough (you don't really need to do list(set(character_combinations)) to remove duplicates)
 
     def generate_combinations_for_alignments_left_or_right(self, existing_combinations, character_options, alignment):
         combinations = set()
@@ -83,7 +97,6 @@ class ParkingPhraseCorrectionService:
     def replace_char_at_index_by_another_char(self, string, index, char):
         return string[:index] + char + string[index + 1:]
 
-
     def generate_combinations_for_alignments_top_or_bottom(self, matched_possible_characters, alignment):
         combinations = [""]
         for char in matched_possible_characters:
@@ -100,19 +113,27 @@ class ParkingPhraseCorrectionService:
                 new_strings.append(prev_string + curr_character)
         return new_strings
 
-    def find_levenshtein_distance(self, str1, str2):
-        pass
-        # # str1 => char comb,    str2 => parking vocab
-        # prev_arr = list(range(0, len(str2) + 1))
-        # curr_arr = list()
-        # print("arr: " + str(prev_arr))
-        # counter = 1
-        # for i in range(len(str1)):
-        #     curr_arr.append(counter)
-        #     for j in range(len(str2)):
-        #         if str1[i] == str2[j]:
-        #             pass
-        # return 1
+    def get_levenshtein_distance_map(self, input_string, parking_phrases):
+        levenshtein_map = {}
+        for parking_phrase in parking_phrases:
+            distance = self.find_levenshtein_distance(input_string, parking_phrase)
+            levenshtein_map[parking_phrase] = distance
+        sorted(levenshtein_map.items(), key=lambda item: item[1])
+        return levenshtein_map
 
-p = ParkingPhraseCorrectionService()
-print("output : " + str(p.find_levenshtein_distance("ZONE", "ONE")))
+    def find_levenshtein_distance(self, str1, str2):
+        # str1 => char comb,    str2 => parking vocab
+        prev_arr = list(range(0, len(str2) + 1))
+        counter = 1
+        for i in range(len(str1)):
+            curr_arr = list()
+            curr_arr.append(counter)
+            for j in range(1, len(str2) + 1):
+                if str1[i] == str2[j - 1]:
+                    curr_arr.append(prev_arr[j - 1])
+                else:
+                    min_value = min(curr_arr[j - 1], prev_arr[j - 1], prev_arr[j])
+                    curr_arr.append(min_value + 1)
+            counter += 1
+            prev_arr = curr_arr
+        return prev_arr[len(str2)]

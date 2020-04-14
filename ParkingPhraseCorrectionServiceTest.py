@@ -6,9 +6,9 @@ class ParkingPhraseCorrectionServiceTest(unittest.TestCase):
 
     def test_parking_correction_service(self):
         test_cases = [
-            # ["ZONE", ["ZONE"]],
-            # ["7ONF", ["ZONE"]],
-            ["ONF", ["ZONE", "ONE"]]
+            ["ZONE", ["ZONE", "ONE"]],
+            ["7ONF", ["ZONE", "ONE"]],
+            ["ONF", ["ZONE", "ONE"]],
         ]
 
         parking_phrase_correction_service = ParkingPhraseCorrectionService.ParkingPhraseCorrectionService()
