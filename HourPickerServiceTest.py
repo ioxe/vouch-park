@@ -60,6 +60,11 @@ class HourPickerServiceTest(unittest.TestCase):
             "36 CFR 1004.12": None,
             "Except Federal Holidays": None,
 
+            #  Scan 6
+            "2 HOUR PARKING": None,
+            "7A.M. 6.P.M.": HourSpec.HourSpec("07:00", "18:00"),
+            # "EXCEPT SUNDAYS": None,
+
             # My Searches
             "12 NOON TO 2 P.M.": HourSpec.HourSpec("12:00", "14:00"),
             "12 NOON TO 12 MIDNIGHT": HourSpec.HourSpec("12:00", "00:00"), # This wasn't really found
@@ -69,6 +74,9 @@ class HourPickerServiceTest(unittest.TestCase):
             "2 HOUR PARKING ENTIRE BLOCK 8AM TO 6PM EXCEPT SUNDAYS & HOLIDAYS": HourSpec.HourSpec("08:00", "18:00"),
             "NO PARKING 12 NOON TO 2 P.M. 1st and 3rd MONDAY of the month": HourSpec.HourSpec("12:00", "14:00"),
             "TOW-AWAY NO STOPPING 7A.M. TO 9 A.M.": HourSpec.HourSpec("07:00", "09:00"),
+            "7-A.M. 6.P.M.": HourSpec.HourSpec("07:00", "18:00"),
+            "7-A.M. 6,P.M.": HourSpec.HourSpec("07:00", "18:00"),
+            "7:A.M. 6.P.M.": HourSpec.HourSpec("07:00", "18:00"),
         }
 
         for test_text in test_objects:

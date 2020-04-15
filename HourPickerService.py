@@ -26,6 +26,7 @@ class HourPickerService:
         return ""
 
     def refine_time(self, time):
+        time = time.strip().strip('.').strip(',').strip('-').strip(':')
         # print(time)
         if len(time) == 1:
             return "0" + str(time) + ":00"
@@ -38,7 +39,7 @@ class HourPickerService:
         return ""
 
     def pick_hour_window(self, text):
-        time_window = re.findall("(\d{1,2}[\.,:]?\d{0,2})\s*(([AP]\.?[M]\.?)|([N]\.?[O]\.?[O]\.?[N]\.?)|([M]\.?[I]\.?[D]\.?[N]\.?[I]\.?[G]\.?[H]\.?[T]\.?))", text)
+        time_window = re.findall("(\d{1,2}[\.,:]?\d{0,2})[\s\.,:-]*(([AP]\.?[M]\.?)|([N]\.?[O]\.?[O]\.?[N]\.?)|([M]\.?[I]\.?[D]\.?[N]\.?[I]\.?[G]\.?[H]\.?[T]\.?))", text)
         # time_window = re.findall("(\d{1,2}[\.,:]?\d{0,2})\s*([AaPp]\.?[Mm]\.?)", text)
         if not time_window:
             return None
@@ -46,7 +47,7 @@ class HourPickerService:
         refined_time = []
         for i in range(len(time_window)):
             refined_am_pm = str(time_window[i][1]).replace('.', '').replace("NOON", "PM").replace("MIDNIGHT", "AM")
-            refined_time_values = self.refine_time(time_window[i][0].strip())
+            refined_time_values = self.refine_time(time_window[i][0])
             time_converted_24_hours = self.convert24(refined_time_values + refined_am_pm)
             refined_time.append(time_converted_24_hours)
             # print("\n i: " + str(i))
