@@ -1,4 +1,5 @@
 import ParkingLibrary
+import collections
 
 
 class ParkingPhraseCorrectionService:
@@ -8,7 +9,7 @@ class ParkingPhraseCorrectionService:
         self.min_levenstein_distance = 2
 
     def correct_phrase(self, phrase):
-        output_phrases = []
+        output_phrases = {}
 
         # Generate character combinations
         matched_possible_characters = self.get_matched_possible_characters(phrase)
@@ -22,19 +23,25 @@ class ParkingPhraseCorrectionService:
             # select top n elements (n = self.min_levenstein_distance)
             for i in range(0, self.min_levenstein_distance):
                 close_match_key = list(levenshtein_distance_map.keys())[i]  # Select close match
-                if close_match_key in combined_levenshtein_distance_map and combined_levenshtein_distance_map[close_match_key] > levenshtein_distance_map[close_match_key]:
+                if close_match_key in combined_levenshtein_distance_map and combined_levenshtein_distance_map[
+                    close_match_key] > levenshtein_distance_map[close_match_key]:
                     combined_levenshtein_distance_map[close_match_key] = levenshtein_distance_map[close_match_key]
                 elif close_match_key not in combined_levenshtein_distance_map:
                     combined_levenshtein_distance_map[close_match_key] = levenshtein_distance_map[close_match_key]
-        sorted(combined_levenshtein_distance_map.items(), key=lambda item: item[1], reverse=True)
-        combined_levenshtein_distance_map_keys = list(combined_levenshtein_distance_map.keys())
+        sorted_combined_levenshtein_distance_map = collections.OrderedDict(
+            sorted(combined_levenshtein_distance_map.items(),
+                   key=lambda item: item[1]))
+        combined_levenshtein_distance_map_keys = list(sorted_combined_levenshtein_distance_map.keys())
 
         # determine how many close words to return
-        levenshtein_distance_threshold = max(combined_levenshtein_distance_map[combined_levenshtein_distance_map_keys[0]], self.min_levenstein_distance)
+        levenshtein_distance_threshold = max(
+            sorted_combined_levenshtein_distance_map[combined_levenshtein_distance_map_keys[0]],
+            self.min_levenstein_distance)
         for key in combined_levenshtein_distance_map_keys:
-            if combined_levenshtein_distance_map[key] <= levenshtein_distance_threshold:
-                output_phrases.append(key)
-        return output_phrases
+            if sorted_combined_levenshtein_distance_map[key] <= levenshtein_distance_threshold:
+                output_phrases[key] = sorted_combined_levenshtein_distance_map[key]
+        sorted_output_phrases = collections.OrderedDict(sorted(output_phrases.items(), key=lambda item: item[1]))
+        return sorted_output_phrases
 
     def get_matched_possible_characters(self, phrase):
         matched_possible_characters = []
@@ -118,8 +125,8 @@ class ParkingPhraseCorrectionService:
         for parking_phrase in parking_phrases:
             distance = self.find_levenshtein_distance(input_string, parking_phrase)
             levenshtein_map[parking_phrase] = distance
-        sorted(levenshtein_map.items(), key=lambda item: item[1])
-        return levenshtein_map
+        sorted_levenshtein_map = sorted(levenshtein_map.items(), key=lambda item: item[1])
+        return collections.OrderedDict(sorted_levenshtein_map)
 
     def find_levenshtein_distance(self, str1, str2):
         # str1 => char comb,    str2 => parking vocab
