@@ -2,13 +2,13 @@ import ParkingLibrary
 import collections
 
 
-class ParkingPhraseCorrectionService:
+class ParkingWordCorrectionService:
 
     def __init__(self):
         self.parkingLibrary = ParkingLibrary.ParkingLibrary()
         self.min_levenstein_distance = 2
 
-    def correct_phrase(self, phrase):
+    def correct_word(self, phrase):
         output_phrases = {}
 
         # Generate character combinations
@@ -56,14 +56,21 @@ class ParkingPhraseCorrectionService:
         # TODO: Consider left and right alignments for first and last character in the input phrase
         if len(matched_possible_characters) > 0:
 
-            bottom_combinations = self.generate_combinations_for_alignments_top_or_bottom(matched_possible_characters,
-                                                                                          self.parkingLibrary.alignments.B.name)
+            center_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(
+                matched_possible_characters,
+                self.parkingLibrary.alignments.C.name)
 
-            top_combinations = self.generate_combinations_for_alignments_top_or_bottom(matched_possible_characters,
-                                                                                       self.parkingLibrary.alignments.T.name)
+            bottom_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(
+                matched_possible_characters,
+                self.parkingLibrary.alignments.B.name)
+
+            top_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(
+                matched_possible_characters,
+                self.parkingLibrary.alignments.T.name)
 
             # combine lists and remove duplicates
-            character_combinations = bottom_combinations + list(set(top_combinations) - set(bottom_combinations))
+
+            character_combinations = list(set(center_combinations + bottom_combinations + top_combinations))
 
             # First character combinations
             if self.parkingLibrary.alignments.L.name in matched_possible_characters[0].keys():
@@ -104,13 +111,17 @@ class ParkingPhraseCorrectionService:
     def replace_char_at_index_by_another_char(self, string, index, char):
         return string[:index] + char + string[index + 1:]
 
-    def generate_combinations_for_alignments_top_or_bottom(self, matched_possible_characters, alignment):
+    def generate_combinations_for_alignments_top_or_bottom_or_center(self, matched_possible_characters, alignment):
         combinations = [""]
         for char in matched_possible_characters:
-            char_arr = char[self.parkingLibrary.alignments.C.name].copy()
+            # char_arr = char[self.parkingLibrary.alignments.C.name].copy()
+            char_arr = []
             if alignment in char:
-                char_arr.extend(char[alignment].copy())
+                char_arr = char[alignment].copy()
+            else:
+                char_arr = char[self.parkingLibrary.alignments.C.name].copy()
             combinations = self.generate_combinations_for_current_characters(combinations, char_arr)
+
         return combinations
 
     def generate_combinations_for_current_characters(self, prev_strings, curr_characters):
@@ -119,6 +130,22 @@ class ParkingPhraseCorrectionService:
             for curr_character in curr_characters:
                 new_strings.append(prev_string + curr_character)
         return new_strings
+
+    # def generate_combinations_for_alignments_top_or_bottom(self, matched_possible_characters, alignment):
+    #     combinations = [""]
+    #     for char in matched_possible_characters:
+    #         char_arr = char[self.parkingLibrary.alignments.C.name].copy()
+    #         if alignment in char:
+    #             char_arr.extend(char[alignment].copy())
+    #         combinations = self.generate_combinations_for_current_characters(combinations, char_arr)
+    #     return combinations
+    #
+    # def generate_combinations_for_current_characters(self, prev_strings, curr_characters):
+    #     new_strings = []
+    #     for prev_string in prev_strings:
+    #         for curr_character in curr_characters:
+    #             new_strings.append(prev_string + curr_character)
+    #     return new_strings
 
     def get_levenshtein_distance_map(self, input_string, parking_phrases):
         levenshtein_map = {}
