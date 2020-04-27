@@ -40,7 +40,7 @@ class ParkingWordCorrectionService:
         for key in combined_levenshtein_distance_map_keys:
             if sorted_combined_levenshtein_distance_map[key] <= levenshtein_distance_threshold:
                 output_phrases[key] = sorted_combined_levenshtein_distance_map[key]
-        sorted_output_phrases = collections.OrderedDict(sorted(output_phrases.items(), key=lambda item: item[1]))
+        sorted_output_phrases = collections.OrderedDict(sorted(output_phrases.items(), key=lambda item: (item[1], item[0])))
         return sorted_output_phrases
 
     def get_matched_possible_characters(self, phrase):

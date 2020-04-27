@@ -17,13 +17,13 @@ class ParkingWordCorrectionServiceTest(unittest.TestCase):
             ["co", {"6": 1, "NO": 1, "TO": 1, "OF": 1, "9": 1, "10": 1, "20": 1, "8": 1, "1": 2, "2": 2, "1AM": 2}],
             ["IONTH", {"MONTH": 0, "MON": 2}],
             ["STORTING", {"STOPPING": 2}],
+            ["PA K G", {"PARK": 3, "PARKING": 3}],
 
             # Incorrect
             # ["nuts P.M.", {"8P.M.": 4, "10P.M.": 4, "10:30P.M.": 4}],
             # ["A.M.", {"1A.M.": 1, "2A.M.": 1, "8A.M.": 1, "8P.M.": 1, "1P.M.": 2}],
 
-            # Phrases
-            # ["PA K G", {"PARK": 3, "PARKING": 3}],
+
         ]
 
         parking_phrase_correction_service = ParkingWordCorrectionService.ParkingWordCorrectionService()
