@@ -55,11 +55,11 @@ class ParkingLineCorrectionService:
             for shortlisted_possible_result in shortlisted_possible_results:
                 word_dict_list = []
                 for word in shortlisted_possible_result:
-                    word_dict_list.append(possible_words_to_corrections[word])
+                    word_dict_list.append([word, possible_words_to_corrections[word]])
                 final_result.append(word_dict_list)
         else:
             current_result = self.parking_word_correction_service.correct_word(input_line)
-            final_result.append([current_result])
+            final_result.append([[input_line, current_result]])
 
         return final_result
 

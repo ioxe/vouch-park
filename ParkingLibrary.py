@@ -271,6 +271,9 @@ class ParkingLibrary:
             ".": {
                 self.alignments.C.name: ["."],
             },
+            "'": {
+                self.alignments.C.name: ["'"],
+            },
             "(": {
                 self.alignments.C.name: ["("],
                 self.alignments.T.name: ["7"],
@@ -282,6 +285,9 @@ class ParkingLibrary:
             ")": {
                 self.alignments.C.name: [")"],
                 self.alignments.L.name: ["0"],
+            },
+            "$": {
+                self.alignments.C.name: ["$"],
             },
             " ": {
                 self.alignments.C.name: [" "],
