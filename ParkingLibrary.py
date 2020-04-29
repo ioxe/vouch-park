@@ -289,6 +289,9 @@ class ParkingLibrary:
             "$": {
                 self.alignments.C.name: ["$"],
             },
+            ",": {
+                self.alignments.C.name: [","],
+            },
             " ": {
                 self.alignments.C.name: [" "],
             },
