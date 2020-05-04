@@ -1,11 +1,11 @@
-import ParkingLibrary
+import ParkingWordsLibrary
 import ParkingWordCorrectionService
 
 
 class ParkingLineCorrectionService:
 
     def __init__(self):
-        self.parking_library = ParkingLibrary.ParkingLibrary()
+        self.parking_words_library = ParkingWordsLibrary.ParkingWordsLibrary()
         self.parking_word_correction_service = ParkingWordCorrectionService.ParkingWordCorrectionService()
 
     def get_line_corrections(self, input_line):
@@ -22,7 +22,7 @@ class ParkingLineCorrectionService:
             for possible_line in possible_lines:
                 is_line_valid = True
                 for word in possible_line:
-                    if len(word) > self.parking_library.max_len_of_parking_words:
+                    if len(word) > self.parking_words_library.max_len_of_parking_words:
                         is_line_valid = False
                 if is_line_valid:
                     valid_possible_lines.append(possible_line)

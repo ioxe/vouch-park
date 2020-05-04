@@ -1,11 +1,11 @@
-import ParkingLibrary
+import ParkingWordsLibrary
 import collections
 
 
 class ParkingWordCorrectionService:
 
     def __init__(self):
-        self.parkingLibrary = ParkingLibrary.ParkingLibrary()
+        self.parking_words_library = ParkingWordsLibrary.ParkingWordsLibrary()
         self.min_levenstein_distance = 2
 
     def correct_word(self, phrase):
@@ -19,7 +19,7 @@ class ParkingWordCorrectionService:
         combined_levenshtein_distance_map = {}
         for character_combination in character_combinations:
             levenshtein_distance_map = self.get_levenshtein_distance_map(character_combination,
-                                                                         self.parkingLibrary.parking_vocabulary)
+                                                                         self.parking_words_library.parking_words_vocabulary)
             # select top n elements (n = self.min_levenstein_distance)
             for i in range(0, self.min_levenstein_distance):
                 close_match_key = list(levenshtein_distance_map.keys())[i]  # Select close match
@@ -46,7 +46,7 @@ class ParkingWordCorrectionService:
     def get_matched_possible_characters(self, phrase):
         matched_possible_characters = []
         for char in phrase:
-            matched_possible_characters.append(self.parkingLibrary.possible_characters[char])
+            matched_possible_characters.append(self.parking_words_library.possible_characters[char])
             # print(" => " + str(self.parkingLibrary.possible_characters[char]))
         return matched_possible_characters
 
@@ -58,38 +58,38 @@ class ParkingWordCorrectionService:
 
             center_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(
                 matched_possible_characters,
-                self.parkingLibrary.alignments.C.name)
+                self.parking_words_library.alignments.C.name)
 
             bottom_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(
                 matched_possible_characters,
-                self.parkingLibrary.alignments.B.name)
+                self.parking_words_library.alignments.B.name)
 
             top_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(
                 matched_possible_characters,
-                self.parkingLibrary.alignments.T.name)
+                self.parking_words_library.alignments.T.name)
 
             # combine lists and remove duplicates
 
             character_combinations = list(set(center_combinations + bottom_combinations + top_combinations))
 
             # First character combinations
-            if self.parkingLibrary.alignments.L.name in matched_possible_characters[0].keys():
+            if self.parking_words_library.alignments.L.name in matched_possible_characters[0].keys():
                 first_char_combs = self.generate_combinations_for_alignments_left_or_right(character_combinations,
                                                                                            matched_possible_characters[
                                                                                                0][
-                                                                                               self.parkingLibrary.alignments.L.name],
-                                                                                           self.parkingLibrary.alignments.L.name)
+                                                                                               self.parking_words_library.alignments.L.name],
+                                                                                           self.parking_words_library.alignments.L.name)
                 character_combinations.extend(first_char_combs)
 
             # Last character combinations
-            if len(matched_possible_characters) > 1 and self.parkingLibrary.alignments.R.name in \
+            if len(matched_possible_characters) > 1 and self.parking_words_library.alignments.R.name in \
                     matched_possible_characters[len(matched_possible_characters) - 1].keys():
                 last_char_combs = self.generate_combinations_for_alignments_left_or_right(character_combinations,
                                                                                           matched_possible_characters[
                                                                                               len(
                                                                                                   matched_possible_characters) - 1][
-                                                                                              self.parkingLibrary.alignments.R.name],
-                                                                                          self.parkingLibrary.alignments.R.name)
+                                                                                              self.parking_words_library.alignments.R.name],
+                                                                                          self.parking_words_library.alignments.R.name)
                 character_combinations.extend(last_char_combs)
 
         return list(set(
@@ -102,7 +102,7 @@ class ParkingWordCorrectionService:
             if comb_length > 0:
                 for character_option in character_options:
                     index = 0
-                    if alignment == self.parkingLibrary.alignments.R.name:
+                    if alignment == self.parking_words_library.alignments.R.name:
                         index = comb_length - 1
                     new_comb = self.replace_char_at_index_by_another_char(existing_combination, index, character_option)
                     combinations.add(new_comb)
@@ -119,7 +119,7 @@ class ParkingWordCorrectionService:
             if alignment in char:
                 char_arr = char[alignment].copy()
             else:
-                char_arr = char[self.parkingLibrary.alignments.C.name].copy()
+                char_arr = char[self.parking_words_library.alignments.C.name].copy()
             combinations = self.generate_combinations_for_current_characters(combinations, char_arr)
 
         return combinations

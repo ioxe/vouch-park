@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ParkingLibrary:
+class ParkingWordsLibrary:
     def __init__(self):
 
         self.alignments = Enum("alignments", ["C", "T", "B", "L", "R"])  # => Center, Top, Bottom, Left, Right
@@ -297,7 +297,7 @@ class ParkingLibrary:
             },
         }
 
-        self.parking_vocabulary = [
+        self.parking_words_vocabulary = [
             "1",
             "1ST",
             "1AM",
@@ -476,4 +476,4 @@ class ParkingLibrary:
             "ZONE",
         ]
 
-        self.max_len_of_parking_words = len(max(self.parking_vocabulary, key=len))
+        self.max_len_of_parking_words = len(max(self.parking_words_vocabulary, key=len))

@@ -4,7 +4,7 @@ import ParkingWordCorrectionService
 
 class ParkingWordCorrectionServiceTest(unittest.TestCase):
 
-    def test_parking_correction_service(self):
+    def test_parking_word_correction_service(self):
         test_cases = [
             ["ZONE", {"ZONE": 0, "ONE": 1, "MON": 2, "AND": 2, "ANY": 2}],
             ["7ONF", {"ZONE": 1, "ONE": 2, "7AM": 2, "AND": 2, "MON": 2, "OF": 2}],
