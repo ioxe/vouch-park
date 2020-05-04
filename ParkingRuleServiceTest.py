@@ -53,23 +53,23 @@ class ParkingRuleServiceTest(unittest.TestCase):
 
         test_case_results = {
             1: ParkingRule.ParkingRule(None,
-                                       [WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI"], [])],
+                                       [WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6], [])],
                                        [HourSpec.HourSpec("09:00", "18:00")],
-                                       2,
+                                       120,
                                        1),
 
             # Scan 1.1
             2: ParkingRule.ParkingRule(None,
-                                       [WeekdaySpec.WeekdaySpec([], ["MON"], [2, 4])],
+                                       [WeekdaySpec.WeekdaySpec([], [2], [2, 4])],
                                        [HourSpec.HourSpec("11:00", "13:00")],
                                        0,
                                        0),
 
             # Scan 1.2
             3: ParkingRule.ParkingRule(None,
-                                       [WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI", "SAT"], [])],
+                                       [WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6, 7], [])],
                                        [HourSpec.HourSpec("07:00", "18:00")],
-                                       2,
+                                       120,
                                        1),
 
             # Scan 2
@@ -81,14 +81,14 @@ class ParkingRuleServiceTest(unittest.TestCase):
 
             # Scan 3
             5: ParkingRule.ParkingRule([DateSpec.DateSpec(False, expected_dates)],
-                                       [WeekdaySpec.WeekdaySpec([], ["FRI", "SAT", "SUN"], [])],
+                                       [WeekdaySpec.WeekdaySpec([], [6, 7, 1], [])],
                                        [HourSpec.HourSpec("23:30", "07:00")],
                                        0,
                                        0),
 
             # Scan 4
             6: ParkingRule.ParkingRule([],
-                                       [WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+                                       [WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6, 7, 1],
                                                                 [])],
                                        [HourSpec.HourSpec("22:00", "06:00")],
                                        0,
@@ -103,9 +103,9 @@ class ParkingRuleServiceTest(unittest.TestCase):
 
             # # My searches
             8: ParkingRule.ParkingRule([DateSpec.DateSpec(True, date_picker_Service.us_holidays)],
-                                       [WeekdaySpec.WeekdaySpec([], ["MON", "TUE", "WED", "THU", "FRI", "SAT"], [])],
+                                       [WeekdaySpec.WeekdaySpec([], [2, 3, 4, 5, 6, 7], [])],
                                        [HourSpec.HourSpec("08:00", "18:00")],
-                                       2,
+                                       120,
                                        1),
         }
 
@@ -134,7 +134,7 @@ class ParkingRuleServiceTest(unittest.TestCase):
                                  actual_parking_rule.weekday_specs[0].days_of_week)
                 self.assertEqual(expected_parking_rule.weekday_specs[0].weeks_of_month,
                                  actual_parking_rule.weekday_specs[0].weeks_of_month)
-            self.assertEqual(expected_parking_rule.duration, actual_parking_rule.duration)
+            self.assertEqual(expected_parking_rule.duration_minutes, actual_parking_rule.duration_minutes)
             self.assertEqual(expected_parking_rule.parking_indicator, actual_parking_rule.parking_indicator)
 
 

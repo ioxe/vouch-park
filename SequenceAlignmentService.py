@@ -11,7 +11,7 @@ class SequenceAlignmentService:
 
         @classproperty
         def definite_chars(cls):
-            return set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.:'/&()$")
+            return set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.:'/&()$-")
 
         @classproperty
         def default_gap_char(cls):
