@@ -9,8 +9,8 @@ class InputTransformerServiceTest(unittest.TestCase):
              [',', '.'], ['7'], ['('], ['A'], ['.'], ['M'], ['.'], [' '], ['T'], ['O'], [','], ['6'], ['P'], ['.'],
              [','], ['E'], ['X'], ['C'], ['E'], ['P'], ['T'], [' '], ['S'], ['U'], ['N'], ['D'], ['A'], ['Y'], ['S']],
             [
-                "HOUR PARKING oP 7(A.M. TO 6P. EXCEPT SUNDAYS",
-                "HOUR PARKING oP.7(A.M. TO 6P. EXCEPT SUNDAYS"
+                "HOUR, PARKING, oP, 7(A.M. TO, 6P., EXCEPT SUNDAYS",
+                "HOUR, PARKING, oP.7(A.M. TO, 6P., EXCEPT SUNDAYS"
             ]
         ],
         [
@@ -20,12 +20,12 @@ class InputTransformerServiceTest(unittest.TestCase):
              ['S']],
 
             [
-                'HOUR PARKING oP 7(A.M. TO 6P. EXCEPT SUNDAYS',
-                'HOUR PARKING oP 7(A.M. TO 6P. EXCEPT SONDAYS',
-                'HOUR PARKING oP 7(A.M. TO 6P. EXCEPT S0NDAYS',
-                'HOUR PARKING oP.7(A.M. TO 6P. EXCEPT SUNDAYS',
-                'HOUR PARKING oP.7(A.M. TO 6P. EXCEPT SONDAYS',
-                'HOUR PARKING oP.7(A.M. TO 6P. EXCEPT S0NDAYS'
+                'HOUR, PARKING, oP, 7(A.M. TO, 6P., EXCEPT SUNDAYS',
+                'HOUR, PARKING, oP, 7(A.M. TO, 6P., EXCEPT SONDAYS',
+                'HOUR, PARKING, oP, 7(A.M. TO, 6P., EXCEPT S0NDAYS',
+                'HOUR, PARKING, oP.7(A.M. TO, 6P., EXCEPT SUNDAYS',
+                'HOUR, PARKING, oP.7(A.M. TO, 6P., EXCEPT SONDAYS',
+                'HOUR, PARKING, oP.7(A.M. TO, 6P., EXCEPT S0NDAYS'
             ]
         ],
         [
@@ -35,10 +35,10 @@ class InputTransformerServiceTest(unittest.TestCase):
              ['7'], [':'], ['0'], ['0'], ['A'], ['M'], [','], [' '], ['F'], ['r'], ['i', 'l'], [','], [' '], ['S'],
              ['a', 'u'], ['t'], [','], [' '], ['S'], ['u'], ['n']],
 
-            ['STOPPING  02/07/2020 - 05/09/2020  11:30PM - 7:00AM  Fri  Sat  Sun',
-             'STOPPING  02/07/2020 - 05/09/2020  11:30PM - 7:00AM  Fri  Sut  Sun',
-             'STOPPING  02/07/2020 - 05/09/2020  11:30PM - 7:00AM  Frl  Sat  Sun',
-             'STOPPING  02/07/2020 - 05/09/2020  11:30PM - 7:00AM  Frl  Sut  Sun']
+            ['STOPPING,  02/07/2020 - 05/09/2020,  11:30PM - 7:00AM,  Fri,  Sat,  Sun',
+             'STOPPING,  02/07/2020 - 05/09/2020,  11:30PM - 7:00AM,  Fri,  Sut,  Sun',
+             'STOPPING,  02/07/2020 - 05/09/2020,  11:30PM - 7:00AM,  Frl,  Sat,  Sun',
+             'STOPPING,  02/07/2020 - 05/09/2020,  11:30PM - 7:00AM,  Frl,  Sut,  Sun']
         ],
     ]
 

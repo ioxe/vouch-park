@@ -51,9 +51,9 @@ class InputTransformerService:
             self.recurse_to_transform(child, input_arr, current_index, "")
 
     def dfs(self, node, prev_lines):
-        prev_lines += " " + node.val
+        prev_lines += ", " + node.val
         if len(node.children) == 0:
-            return [prev_lines.strip()]
+            return [prev_lines.strip(' ,')]
 
         merged_list = []
         for child in node.children:
