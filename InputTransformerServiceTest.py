@@ -48,7 +48,17 @@ class InputTransformerServiceTest(unittest.TestCase):
         for test_case in self.test_cases:
             actual_result = input_transformer_service.transform_input(test_case[0])
 
-            self.assertEqual(test_case[1], actual_result)
+            self.assertEqual(test_case[1], self.verify_tree_using_dfs(actual_result, ""))
+
+    def verify_tree_using_dfs(self, node, prev_lines):
+        prev_lines += ", " + node.val
+        if len(node.children) == 0:
+            return [prev_lines.strip(' ,')]
+
+        merged_list = []
+        for child in node.children:
+            merged_list.extend(self.verify_tree_using_dfs(child, prev_lines))
+        return merged_list
 
 
 if __name__ == '__main__':

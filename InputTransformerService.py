@@ -6,7 +6,9 @@ class InputTransformerService:
     class Node:
         def __init__(self, val):
             self.val = val
+            self.corrections = []
             self.children = []
+            self.tokens = []
 
     def __init__(self):
         self.sequence_alignment_service = SequenceAlignmentService.SequenceAlignmentService()
@@ -16,7 +18,7 @@ class InputTransformerService:
         head = self.Node("")
         print(head.val)
         self.recurse_to_transform(head, input_arr, -1, "")
-        return self.dfs(head, "")
+        return head
 
     def recurse_to_transform(self, node, input_arr, current_index, line_so_far):
         #  Base case
@@ -49,13 +51,3 @@ class InputTransformerService:
             node.children.append(child)
             # print(child.val)
             self.recurse_to_transform(child, input_arr, current_index, "")
-
-    def dfs(self, node, prev_lines):
-        prev_lines += ", " + node.val
-        if len(node.children) == 0:
-            return [prev_lines.strip(' ,')]
-
-        merged_list = []
-        for child in node.children:
-            merged_list.extend(self.dfs(child, prev_lines))
-        return merged_list

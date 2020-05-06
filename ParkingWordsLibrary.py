@@ -292,6 +292,9 @@ class ParkingWordsLibrary:
             ",": {
                 self.alignments.C.name: [","],
             },
+            "-": {
+                self.alignments.C.name: ["-"],
+            },
             " ": {
                 self.alignments.C.name: [" "],
             },
