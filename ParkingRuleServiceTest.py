@@ -12,7 +12,7 @@ class ParkingRuleServiceTest(unittest.TestCase):
 
     def test_parking_rule_service(self):
         from_date = datetime.date(2020, 2, 7)
-        to_date = datetime.date(2020, 5, 9)
+        to_date = datetime.date(2020, 12, 9)
         today = datetime.date.today()
         date_picker_Service = DatePickerService.DatePickerService()
         expected_dates = []
@@ -34,7 +34,7 @@ class ParkingRuleServiceTest(unittest.TestCase):
             4: ["NO PARKING", "9A.M. TO 11A.M.", "10/02 SSC C&C OF S.F. 3M"],
 
             # Scan 3
-            5: ["STOPPING", "02/07/2020 - 05/09/2020", "11:30PM - 7:00AM", "Fri, Sat, Sun",
+            5: ["STOPPING", "02/07/2020 - 12/09/2020", "11:30PM - 7:00AM", "Fri, Sat, Sun",
                 "15TH AVE/TARAVAL ST - ULLOA ST", "(300 ft.) - Odd",
                 "Pacific Gas & Electric", "415-695-3500", "Permit # 20TOC-00678", "Temp Occupancy",
                 "QUESTIONS? 554.5824 (M-F)", "415.553.1200", "PUBLIC", "WORKS"],

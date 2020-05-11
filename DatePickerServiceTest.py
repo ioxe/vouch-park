@@ -10,7 +10,7 @@ class DatePickerServiceTest(unittest.TestCase):
         date_picker_service = DatePickerService.DatePickerService()
 
         from_date = datetime.date(2020, 2, 7)
-        to_date = datetime.date(2020, 5, 9)
+        to_date = datetime.date(2020, 12, 9)
         today = datetime.date.today()
         expected_dates = []
         for i in range(365):
@@ -44,7 +44,7 @@ class DatePickerServiceTest(unittest.TestCase):
 
             # Scan 3
             "STOPPING": None,
-            "02/07/2020 - 05/09/2020": DateSpec.DateSpec(False, expected_dates),
+            "02/07/2020 - 12/09/2020": DateSpec.DateSpec(False, expected_dates),
             "11:30PM - 7:00AM": None,
             "Fri, Sat, Sun": None,
             "15TH AVE/TARAVAL ST - ULLOA ST": None,

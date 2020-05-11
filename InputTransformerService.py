@@ -1,21 +1,16 @@
 import ParkingLineCorrectionService
 import SequenceAlignmentService
+import Node
 
 
 class InputTransformerService:
-    class Node:
-        def __init__(self, val):
-            self.val = val
-            self.corrections = []
-            self.children = []
-            self.tokens = []
 
     def __init__(self):
         self.sequence_alignment_service = SequenceAlignmentService.SequenceAlignmentService()
         self.parking_line_correction_service = ParkingLineCorrectionService.ParkingLineCorrectionService()
 
     def transform_input(self, input_arr):
-        head = self.Node("")
+        head = Node.Node("")
         print(head.val)
         self.recurse_to_transform(head, input_arr, -1, "")
         return head
@@ -32,14 +27,14 @@ class InputTransformerService:
             current_index += 1
 
         if current_index >= len(input_arr):
-            child = self.Node(line_so_far)
+            child = Node.Node(line_so_far)
             node.children.append(child)
             # print(child.val)
 
         elif len(input_arr[current_index]) > 1:
             for i in range(len(input_arr[current_index])):
                 if input_arr[current_index][i] == ",":
-                    child = self.Node(line_so_far)
+                    child = Node.Node(line_so_far)
                     node.children.append(child)
                     # print(child.val)
                     self.recurse_to_transform(child, input_arr, current_index, "")
@@ -47,7 +42,7 @@ class InputTransformerService:
                     self.recurse_to_transform(node, input_arr, current_index, line_so_far + input_arr[current_index][i])
 
         elif len(input_arr[current_index]) == 1:
-            child = self.Node(line_so_far)
+            child = Node.Node(line_so_far)
             node.children.append(child)
             # print(child.val)
             self.recurse_to_transform(child, input_arr, current_index, "")
