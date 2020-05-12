@@ -6,13 +6,13 @@ class ParkingWordToken(Enum):
                    r'\bNOON\b',
                    r'\bMID\s*(-)?\s*NIGHT\b']
 
-    DAY_OF_WEEK = [r'\bMON(DAY)?\b',
-                   r'\bTUE(DAY)?\b',
-                   r'\bWED(DAY)?\b',
-                   r'\bTHU(DAY)?\b',
-                   r'\bFRI(DAY)?\b',
-                   r'\bSAT(DAY)?\b',
-                   r'\bSUN(DAY)?\b']
+    DAY_OF_WEEK = [r'\bMON(DAY)?(S)?\b',
+                   r'\bTUE(DAY)?(S)?\b',
+                   r'\bWED(DAY)?(S)?\b',
+                   r'\bTHU(DAY)?(S)?\b',
+                   r'\bFRI(DAY)?(S)?\b',
+                   r'\bSAT(DAY)?(S)?\b',
+                   r'\bSUN(DAY)?(S)?\b']
 
     WEEK_OF_MONTH = [r'\b1\s*(-)?\s*ST\b',
                      r'\b2\s*(-)?\s*ND\b',
@@ -24,5 +24,9 @@ class ParkingWordToken(Enum):
                     r'\b2{0,1}[0-4]{1}\b']
 
     MINUTES_PARKING = [r'\b[1-5]{0,1}[0-9]{1}\b',
-                       r'\b6{0,1}0{1}\b']
+                       r'\b60\b']
+
+    DATE = [r'\b((0?[1-9])|(1[0-2]))\s*[-\/]\s*((0?[1-9])|([1-2][0-9])|(3[0-1]))\s*[-\/]\s*((19|20)?\d{2})\b']
+
+
 

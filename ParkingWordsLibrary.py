@@ -6,7 +6,6 @@ class ParkingWordsLibrary:
 
         self.alignments = Enum("alignments", ["C", "T", "B", "L", "R"])  # => Center, Top, Bottom, Left, Right
 
-        # ToDo : Create the dictionary for lower case letters as well
         self.possible_characters = {
             "A": {
                 self.alignments.C.name: ["A"],

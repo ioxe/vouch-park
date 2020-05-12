@@ -53,7 +53,6 @@ class ParkingWordCorrectionService:
     def generate_combinations_of_characters(self, matched_possible_characters):
 
         character_combinations = []
-        # TODO: Consider left and right alignments for first and last character in the input phrase
         if len(matched_possible_characters) > 0:
 
             center_combinations = self.generate_combinations_for_alignments_top_or_bottom_or_center(

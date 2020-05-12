@@ -15,7 +15,7 @@ class ParkingSignCorrectionServiceTest(unittest.TestCase):
 
         for test_case in self.test_cases:
             actual_result = parking_sign_correction_service.correct_parking_sign(test_case[0])
-            # self.assertEqual(test_case[1], actual_result)
+            self.assertEqual(test_case[1], actual_result)
 
 
 if __name__ == '__main__':
