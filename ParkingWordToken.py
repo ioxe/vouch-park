@@ -28,13 +28,16 @@ class ParkingWordToken(Enum):
                      r'\b4\s*(-)?\s*TH\b',
                      r'\b5\s*(-)?\s*TH\b']
 
-    HOUR_PARKING = [r'\b1{0,1}[0-9]{1}\b',
-                    r'\b2{0,1}[0-4]{1}\b']
+    HOUR_PARKING = [r'\b1{0,1}[0-9]\b',
+                    r'\b2{0,1}[0-4]\b']
 
-    MINUTES_PARKING = [r'\b[1-5]{0,1}[0-9]{1}\b',
-                       r'\b60\b']
+    MINUTES_PARKING = [r'\b[1-5][0-9]{1}\b',
+                       r'\b60\b',
+                       r'\b90\b']
 
     DATE = [r'\b((0?[1-9])|(1[0-2]))\s*[-\/]\s*((0?[1-9])|([1-2][0-9])|(3[0-1]))\s*[-\/]\s*((19|20)?\d{2})\b']
 
-
-
+    RANGE = [r'\bTO\b',
+             r'\bTHRU\b',
+             r'\bTHROUGH\b',
+             r'\b\s*[-]\s*\b']

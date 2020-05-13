@@ -22,7 +22,7 @@ class ParkingTokenizationService:
     def get_matching_token_for_word(self, word):
         tokens = {}
         for parking_word_token in ParkingWordToken.ParkingWordToken:
-            confidence_percent = 0
+            coverage_percent = 0
             for regex in parking_word_token.value:
                 reg = re.compile(regex)
                 regex_matches = list(reg.finditer(word.upper()))
@@ -30,6 +30,6 @@ class ParkingTokenizationService:
                     for regex_match in regex_matches:
                         match_indices = regex_match.span()
                         match_length = match_indices[1] - match_indices[0]
-                        confidence_percent = max(round((match_length * 100 / len(word.strip("."))),2), confidence_percent)  # word.strip(".") because regex doesn't match the period at the end of the word
-                        tokens[parking_word_token.name] = confidence_percent
+                        coverage_percent = max(round((match_length * 100 / len(word.strip("."))),2), coverage_percent)  # word.strip(".") because regex doesn't match the period at the end of the word
+                        tokens[parking_word_token.name] = coverage_percent
         return tokens

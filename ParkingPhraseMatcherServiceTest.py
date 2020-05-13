@@ -7,9 +7,14 @@ import ParkingPhraseMatcherService
 
 
 class ParkingPhraseMatcherServiceTest(unittest.TestCase):
+    # TODO: Work in progress
     test_cases = [
+        # [
+        #     ["HOUR,PARKING,7A.M. TO 6P.,EXCEPT SUNDAYS", "HOUR,PARKING,oP. (A.M.TO,EXCEPT SUNDAYS"],
+        #     []
+        # ],
         [
-            ["HOUR,PARKING,7A.M. TO 6P.,EXCEPT SUNDAYS", "HOUR,PARKING,oP. (A.M.TO,EXCEPT SUNDAYS"],
+            ["HOUR,PA K NG,7A.M. TO 6P.,EXCEPT, MON SA", "HOUR,PA K NG,oP. (A.M.TO,EXCEPT, MON SA"],
             []
         ],
     ]

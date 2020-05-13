@@ -20,8 +20,8 @@ class ParkingTokenizationServiceTest(unittest.TestCase):
                 [['NO', {}, 0],
                  ['10', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 1],
                  ['20', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 1],
-                 ['TO', {}, 1],
-                 ['1', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2]]]],
+                 ['TO', {'RANGE': 100.0}, 1],
+                 ['1', {'HOUR_PARKING': 100.0}, 2]]]],
               [['PA K NG', {}, [['PARKING', {}, 2]]]]]]
         ],
         [
@@ -50,20 +50,20 @@ class ParkingTokenizationServiceTest(unittest.TestCase):
                  ['2AM', {'TIME_OF_DAY': 100.0}, 1],
                  ['10', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2],
                  ['1PM', {'TIME_OF_DAY': 100.0}, 2],
-                 ['6', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2],
-                 ['8', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2],
-                 ['9', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2],
+                 ['6', {'HOUR_PARKING': 100.0}, 2],
+                 ['8', {'HOUR_PARKING': 100.0}, 2],
+                 ['9', {'HOUR_PARKING': 100.0}, 2],
                  ['FOR', {}, 2],
                  ['SUN', {'DAY_OF_WEEK': 100.0}, 2]]],
                ['SA',
                 {},
-                [['8', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 1],
+                [['8', {'HOUR_PARKING': 100.0}, 1],
                  ['8AM', {'TIME_OF_DAY': 100.0}, 1],
                  ['SAT', {'DAY_OF_WEEK': 100.0}, 1],
-                 ['1', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2],
+                 ['1', {'HOUR_PARKING': 100.0}, 2],
                  ['1AM', {'TIME_OF_DAY': 100.0}, 2],
                  ['1ST', {'WEEK_OF_MONTH': 100.0}, 2],
-                 ['2', {'HOUR_PARKING': 100.0, 'MINUTES_PARKING': 100.0}, 2]]]]]]
+                 ['2', {'HOUR_PARKING': 100.0}, 2]]]]]]
         ]
     ]
 
