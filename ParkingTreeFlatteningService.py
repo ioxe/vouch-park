@@ -1,4 +1,5 @@
 import copy
+import ParkingSignWithTokenAndDistance
 
 
 class ParkingTreeFlatteningService:
@@ -40,13 +41,13 @@ class ParkingTreeFlatteningService:
         for token in tokens:
             results_for_token = copy.deepcopy(prev_list)
             if len(results_for_token) == 0:
-                results_for_token = [[word, [token[0]], levenshtein_distance, token[1]]]
+                # results_for_token = [[word, [token[0]], levenshtein_distance, token[1]]]
+                results_for_token = [ParkingSignWithTokenAndDistance.ParkingSignWithTokenAndDistance([word, token[0]], levenshtein_distance, token[1])]
             else:
                 for result_for_token in results_for_token:
-                    result_for_token[0] = result_for_token[0] + " " + word
-                    result_for_token[1].append(token[0])
-                    result_for_token[2] = result_for_token[2] + levenshtein_distance
-                    result_for_token[3] = result_for_token[3] + token[1]
+                    result_for_token.sign.append([word, token[0]])
+                    result_for_token.levenshtein_distance += levenshtein_distance
+                    result_for_token.token_coverage_length += token[1]
             result.extend(results_for_token)
         return result
 
@@ -54,11 +55,12 @@ class ParkingTreeFlatteningService:
         if len(tokens) == 0:
             temp_results = copy.deepcopy(prev_list)
             if len(temp_results) == 0:
-                return [[word, [], levenshtein_distance, 0]]
+                return [ParkingSignWithTokenAndDistance.ParkingSignWithTokenAndDistance([[word, "NO_TOKEN"]], levenshtein_distance, 0)]
             else:
                 for temp_result in temp_results:
-                    temp_result[0] = temp_result[0] + " " + word
-                    temp_result[2] = temp_result[2] + levenshtein_distance
+                    temp_result.sign.append([word, "NO_TOKEN"])
+                    temp_result.levenshtein_distance += levenshtein_distance
+                    temp_result.token_coverage_length += 0
             return temp_results
         else:
             return self.add_word_to_previous_paths_parent(prev_list, word, tokens, levenshtein_distance)
