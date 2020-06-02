@@ -6,9 +6,13 @@ class ParkingSignCorrectionServiceTest(unittest.TestCase):
     # TODO: Work in progress
     test_cases = [
         [
-            ["HOUR,PARKING,7A.M. TO 6P.,EXCEPT SUNDAYS", "HOUR,PARKING,oP. (A.M.TO,EXCEPT SUNDAYS"],
+            ["HOUR,PA K NG,7A.M. TO 6P.,EXCEPT SUNDAYS", "HOUR,PA K NG,oP. (A.M.TO,EXCEPT SUNDAYS"],
             []
-        ]
+        ],
+        # [
+        #     ["HOUR,PARKING,7A.M. TO 6P.,EXCEPT SUNDAYS", "HOUR,PARKING,oP. (A.M.TO,EXCEPT SUNDAYS"],
+        #     []
+        # ]
     ]
 
     def test(self):
@@ -16,7 +20,7 @@ class ParkingSignCorrectionServiceTest(unittest.TestCase):
 
         for test_case in self.test_cases:
             actual_result = parking_sign_correction_service.correct_parking_sign(test_case[0])
-            # self.assertEqual(test_case[1], actual_result)
+            self.assertEqual(test_case[1], actual_result)
 
 
 if __name__ == '__main__':
