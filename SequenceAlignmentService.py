@@ -28,7 +28,7 @@ class SequenceAlignmentService:
                                                                alphabet=self.SignSequence.definite_chars)  # match_score, mismatch_score
             x = self.SignSequence(input1.replace(' ', '*'))
             y = self.SignSequence(input2.replace(' ', '*'))
-            alignment, score, start_end_positions = ska.global_pairwise_align(x, y, 2, 0.5,
+            alignment, score, start_end_positions = ska.global_pairwise_align(x, y, 4, 1,
                                                                               substitution_matrix=sub_matrix)
             # print('score %d' % score)
             # print(str(alignment[0]))

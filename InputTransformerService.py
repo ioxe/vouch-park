@@ -1,48 +1,85 @@
-import ParkingLineCorrectionService
-import SequenceAlignmentService
-import Node
-
-
 class InputTransformerService:
 
+    class Vertex:
+
+        def __init__(self):
+            self.line = ""
+            self.start_index = 0
+            self.end_index = 0
+
     def __init__(self):
-        self.sequence_alignment_service = SequenceAlignmentService.SequenceAlignmentService()
-        self.parking_line_correction_service = ParkingLineCorrectionService.ParkingLineCorrectionService()
+        self.currentVertex = 0
+        self.vertices = {}
+        self.edges = {}
 
-    def transform_input(self, input_arr):
-        head = Node.Node("")
-        print(head.val)
-        self.recurse_to_transform(head, input_arr, -1, "")
-        return head
+    def transform_array_to_graph(self, input_arr):
+        self.currentVertex = 0
+        self.vertices = {}
+        self.edges = {}
+        return self.create_graph(input_arr)
 
-    def recurse_to_transform(self, node, input_arr, current_index, line_so_far):
-        #  Base case
-        if current_index + 1 >= len(input_arr):
+    def create_graph(self, input_arr):
+        self.recurse_for_vertex(input_arr, 0, self.Vertex())
+        self.get_edges_for_graph()
+        output_vertices = {}
+        for key, val in self.vertices.items():
+            output_vertices[key] = val.line
+        return output_vertices, self.edges
+
+    def get_edges_for_graph(self):
+        for key in self.vertices.keys():
+            self.edges[key] = set()
+        k = list(self.vertices.keys())[0]
+        self.recurse_for_edge(k, self.vertices[k])
+
+    def recurse_for_edge(self, current_vertex_id, current_vertex):
+        vertices = self.find_vertices_with_start_index(current_vertex.end_index + 1)
+        for vertex_id in vertices:
+            self.edges[current_vertex_id].add(vertex_id)
+            self.recurse_for_edge(vertex_id, self.vertices[vertex_id])
+
+    def recurse_for_vertex(self, input_arr, current_index, vertex):
+
+        # termination - end of the i/p array
+        if len(input_arr) - 1 < current_index:
+            vertex.end_index = current_index - 1
+            if self.is_new_vertex(vertex):
+                self.currentVertex += 1
+                self.vertices[self.currentVertex] = vertex
             return
 
-        current_index += 1
+        for ele in input_arr[current_index]:
+            if ele == ',':
+                vertex.end_index = current_index - 1
+                if self.is_new_vertex(vertex):
+                    self.currentVertex += 1
+                    self.vertices[self.currentVertex] = vertex
 
-        while current_index < len(input_arr) and len(input_arr[current_index]) == 1 and "," != input_arr[current_index][0]:
-            line_so_far += input_arr[current_index][0]
-            current_index += 1
+                new_vertex = self.Vertex()
+                new_vertex.start_index = current_index
+                self.recurse_for_vertex(input_arr, current_index + 1, new_vertex)
+            else:
 
-        if current_index >= len(input_arr):
-            child = Node.Node(line_so_far)
-            node.children.append(child)
-            # print(child.val)
+                temp_vertex = self.Vertex()
+                temp_vertex.line = vertex.line + ele
+                temp_vertex.start_index = vertex.start_index
+                temp_vertex.end_index = vertex.end_index
 
-        elif len(input_arr[current_index]) > 1:
-            for i in range(len(input_arr[current_index])):
-                if input_arr[current_index][i] == ",":
-                    child = Node.Node(line_so_far)
-                    node.children.append(child)
-                    # print(child.val)
-                    self.recurse_to_transform(child, input_arr, current_index, "")
-                else:
-                    self.recurse_to_transform(node, input_arr, current_index, line_so_far + input_arr[current_index][i])
+                self.recurse_for_vertex(input_arr, current_index + 1, temp_vertex)
 
-        elif len(input_arr[current_index]) == 1:
-            child = Node.Node(line_so_far)
-            node.children.append(child)
-            # print(child.val)
-            self.recurse_to_transform(child, input_arr, current_index, "")
+    def is_new_vertex(self, vertex_under_test):
+
+        is_new_vertex = True
+
+        for vertex in self.vertices.values():
+            if vertex.line == vertex_under_test.line and vertex.start_index == vertex_under_test.start_index and vertex.end_index == vertex_under_test.end_index:
+                is_new_vertex = False
+
+        return is_new_vertex
+
+    def find_vertices_with_start_index(self, start_index):
+        result = []
+        for key, value in self.vertices.items():
+            if value.start_index == start_index:
+                result.append(key)
+        return result
