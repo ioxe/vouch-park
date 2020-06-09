@@ -1,4 +1,4 @@
-class InputTransformerService:
+class GraphBuilderService:
 
     class Vertex:
 

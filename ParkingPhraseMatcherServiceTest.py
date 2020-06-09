@@ -1,6 +1,6 @@
 import unittest
 import SequenceAlignmentService
-import InputTransformerService
+import GraphBuilderService
 import ParkingLineCorrectionService
 import ParkingTokenizationService
 import ParkingPhraseMatcherService
@@ -19,7 +19,7 @@ class ParkingPhraseMatcherServiceTest(unittest.TestCase):
         ],
     ]
     sequence_alignment_service = SequenceAlignmentService.SequenceAlignmentService()
-    input_transformer_Service = InputTransformerService.InputTransformerService()
+    input_transformer_Service = GraphBuilderService.GraphBuilderService()
     parking_line_correction_service = ParkingLineCorrectionService.ParkingLineCorrectionService()
     parking_tokenization_service = ParkingTokenizationService.ParkingTokenizationService()
 

@@ -1,5 +1,5 @@
 import SequenceAlignmentService
-import InputTransformerService
+import GraphBuilderService
 import ParkingLineCorrectionService
 import ParkingTokenizationService
 
@@ -8,13 +8,13 @@ class ParkingSignCorrectionService:
 
     def __init__(self):
         self.sequence_alignment_service = SequenceAlignmentService.SequenceAlignmentService()
-        self.input_transformer_Service = InputTransformerService.InputTransformerService()
+        self.graph_builder_Service = GraphBuilderService.GraphBuilderService()
         self.parking_line_correction_service = ParkingLineCorrectionService.ParkingLineCorrectionService()
         self.parking_tokenization_service = ParkingTokenizationService.ParkingTokenizationService()
 
     def correct_parking_sign(self, inputs):
         aligned_sequence = self.sequence_alignment_service.pairwise_align_and_merge_sequences(inputs[0], inputs[1])
-        vertices, edges = self.input_transformer_Service.transform_array_to_graph(aligned_sequence)
+        vertices, edges = self.graph_builder_Service.transform_array_to_graph(aligned_sequence)
 
         # Get line corrected vertices
         line_corrected_vertices = {}

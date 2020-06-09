@@ -1,8 +1,8 @@
 import unittest
-import InputTransformerService
+import GraphBuilderService
 
 
-class InputTransformerServiceTest(unittest.TestCase):
+class GraphBuilderServiceTest(unittest.TestCase):
     test_cases = [
         [
             [['H'], ['O'], ['U'], ['R'], [','], ['P'], ['A'], ['R'], ['K'], ['I'], ['N'], ['G'], [','], ['o'], ['P'],
@@ -51,10 +51,10 @@ class InputTransformerServiceTest(unittest.TestCase):
     ]
 
     def test(self):
-        input_transformer_service = InputTransformerService.InputTransformerService()
+        graph_builder_service = GraphBuilderService.GraphBuilderService()
 
         for test_case in self.test_cases:
-            vertices, edges = input_transformer_service.transform_array_to_graph(test_case[0])
+            vertices, edges = graph_builder_service.transform_array_to_graph(test_case[0])
             self.assertEqual(test_case[1], vertices)
             self.assertEqual(test_case[2], edges)
 
