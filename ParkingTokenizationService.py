@@ -1,24 +1,36 @@
 import ParkingWordToken
 import re
+import ParkingTokenizedDomain
 
 
 class ParkingTokenizationService:
 
-    def get_matching_tokens(self, input_arr):
-        # print(str(input_arr[0]) + " : " + str(self.get_matching_token_for_word(input_arr[0])))
-        correction_set_arr = []
-        for correctionSet in input_arr[1]:
-            elements = []
-            for correction in correctionSet:
-                # print("\t" + str(correction[0]) + " : " + str(self.get_matching_token_for_word(correction[0])))
-                possible_correction_arr = []
-                for key, val in correction[1].items():
-                    # print("\t\t" + str(key) + " : " + str(self.get_matching_token_for_word(key)))
-                    possible_correction_arr.append([key, self.get_matching_token_for_word(key), val])
-                elements.append(
-                    [correction[0], self.get_matching_token_for_word(correction[0]), possible_correction_arr])
-            correction_set_arr.append(elements)
-        return [input_arr[0], self.get_matching_token_for_word(input_arr[0]), correction_set_arr]
+    def get_matching_tokens(self, parking_line_correction_domain):
+        parking_tokenized_domain = ParkingTokenizedDomain.ParkingTokenizedDomain()
+        parking_tokenized_domain.text = parking_line_correction_domain.text
+        parking_tokenized_domain.tokens = self.get_matching_token_for_word(parking_tokenized_domain.text)
+
+        # # line_combination
+        line_combinations = []
+        for input_line_comb in parking_line_correction_domain.line_combinations:
+            line_combination = ParkingTokenizedDomain.ParkingTokenizedDomain.LineCombination()
+
+            for input_part_of_line in input_line_comb.parts_of_line:
+                part_of_line = ParkingTokenizedDomain.ParkingTokenizedDomain.LineCombination.PartOfLine()
+                part_of_line.text = input_part_of_line.text
+                part_of_line.tokens = self.get_matching_token_for_word(part_of_line.text)
+
+                for input_word_correction_text, levenshtein_distance in input_part_of_line.word_corrections.items():
+                    word_correction = ParkingTokenizedDomain.ParkingTokenizedDomain.LineCombination.PartOfLine.WordCorrection()
+                    word_correction.text = input_word_correction_text
+                    word_correction.tokens = self.get_matching_token_for_word(input_word_correction_text)
+                    word_correction.levenshtein_distance = levenshtein_distance
+                    part_of_line.word_corrections.append(word_correction)
+                line_combination.parts_of_line.append(part_of_line)
+            line_combinations.append(line_combination)
+
+        parking_tokenized_domain.line_combinations = line_combinations
+        return parking_tokenized_domain
 
     def get_matching_token_for_word(self, word):
         tokens = {}
@@ -37,6 +49,4 @@ class ParkingTokenizationService:
                         # coverage_percent = max(round((match_length * 100 / len(word.strip("."))), 2),
                         #                        coverage_percent)  # word.strip(".") because regex doesn't match the period at the end of the word
                         # tokens[parking_word_token.name] = coverage_percent
-
-        sorted_tokens = sorted(tokens.items(), key=lambda kv: kv[1], reverse=True)
-        return sorted_tokens
+        return tokens

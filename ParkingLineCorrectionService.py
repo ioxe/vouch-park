@@ -1,5 +1,6 @@
 import ParkingWordsLibrary
 import ParkingWordCorrectionService
+import ParkingLineCorrectionDomain
 
 
 class ParkingLineCorrectionService:
@@ -9,7 +10,8 @@ class ParkingLineCorrectionService:
         self.parking_word_correction_service = ParkingWordCorrectionService.ParkingWordCorrectionService()
 
     def get_line_corrections(self, input_line):
-        final_result = []
+        parking_line_correction_domain = ParkingLineCorrectionDomain.ParkingLineCorrectionDomain()
+        parking_line_correction_domain.text = input_line
 
         words = input_line.split()
 
@@ -53,15 +55,24 @@ class ParkingLineCorrectionService:
                 shortlisted_possible_results.append(sorted_possible_result[0])
 
             for shortlisted_possible_result in shortlisted_possible_results:
-                word_dict_list = []
+                line_combination = ParkingLineCorrectionDomain.ParkingLineCorrectionDomain.LineCombination()
                 for word in shortlisted_possible_result:
-                    word_dict_list.append([word, possible_words_to_corrections[word]])
-                final_result.append(word_dict_list)
+                    part_of_line = ParkingLineCorrectionDomain.ParkingLineCorrectionDomain.LineCombination.PartOfLine()
+                    part_of_line.text = word
+                    part_of_line.word_corrections = possible_words_to_corrections[word]
+                    line_combination.parts_of_line.append(part_of_line)
+                parking_line_correction_domain.line_combinations.append(line_combination)
         else:
             current_result = self.parking_word_correction_service.correct_word(input_line)
-            final_result.append([[input_line, current_result]])
+            part_of_line = ParkingLineCorrectionDomain.ParkingLineCorrectionDomain.LineCombination.PartOfLine()
+            part_of_line.text = input_line
+            part_of_line.word_corrections = current_result
+            line_combination = ParkingLineCorrectionDomain.ParkingLineCorrectionDomain.LineCombination()
+            line_combination.parts_of_line.append(part_of_line)
+            parking_line_correction_domain.line_combinations.append(line_combination)
 
-        return final_result
+        # return final_result
+        return parking_line_correction_domain
 
     def recurse(self, current, words, index):
         left_val = current.copy()
